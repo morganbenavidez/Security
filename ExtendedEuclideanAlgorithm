@@ -1,0 +1,100 @@
+
+
+# EEA returns (gcd, linearCombination) or None values in place where applicable
+
+
+def ExtendedEuclideanAlgorithm(a, b):
+
+  if b > a: 
+
+    a, b = b, a
+
+  if b == a:
+
+    return (a, None)
+
+  # Create a Dictionary for values of r (rewritten)
+  rdict = {}
+
+  # Create a List keys after you complete them and add to dictionary and append here,
+  # so we can recall last one easily
+  lastRList = []
+
+  # Create Symbols to easily manipulate without completely solving
+  A = sym.Symbol('A')
+  B = sym.Symbol('B')
+
+  # Store copies of original values
+  aOriginal = a
+  bOriginal = b
+
+  # Store the Symbols in the Dictionary to match with a and b if found
+  rdict[str(a)] = A
+  rdict[str(b)] = B
+  
+  # Create a trigger to break loop
+  trigger = False
+
+  # Initialize quotient and remainder variables
+  q = 0
+  r = 1
+
+  # Start loop to begin calculations
+  while (trigger == False):
+
+    q = a // b
+    r = a % b
+
+    newa = rdict[str(a)]
+    newb = rdict[str(b)]
+
+    conclusion = newa - q*(newb)
+    print(conclusion)
+    rdict[str(r)] = conclusion
+
+    if (r == 0):
+
+      trigger = True
+
+      GCD = b
+
+    lastRList.append(str(r))
+
+    a = b
+    b = r
+
+  # print the GCD
+  print(GCD)
+
+  # print the Integer Linear Combination
+  print(rdict[str(lastRList[-2])])
+
+  # print the coefficients of the Variable A
+  print(rdict[str(lastRList[-2])].coeff(A))
+
+  # print the coefficients of the Variable B
+  print(rdict[str(lastRList[-2])].coeff(B))
+
+  # print the coefficents of the Variable A * the original value of a
+  print(rdict[str(lastRList[-2])].coeff(A)*aOriginal)
+
+  # print the coefficents of the Variable B * the original value of b
+  print(rdict[str(lastRList[-2])].coeff(B)*bOriginal)
+
+  # print the value of the two multiplied out added together
+  print(rdict[str(lastRList[-2])].coeff(A)*aOriginal+rdict[str(lastRList[-2])].coeff(B)*bOriginal)
+  
+  addedTogether = rdict[str(lastRList[-2])].coeff(A)*aOriginal+rdict[str(lastRList[-2])].coeff(B)*bOriginal
+
+  integerLinearCombination = rdict[str(lastRList[-2])]
+
+  if (GCD == addedTogether):
+
+    return (GCD, integerLinearCombination)
+
+  else:
+
+    return (None, None)
+
+
+

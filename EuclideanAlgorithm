@@ -1,0 +1,12 @@
+# Use for finding the GCD of two numbers
+
+def EuclideanAlgorithm(a, b):
+
+  if b > a: 
+
+    a, b = b, a
+
+
+  if b == 0: return a
+
+  else: return EuclideanAlgorithm(b, a % b)
